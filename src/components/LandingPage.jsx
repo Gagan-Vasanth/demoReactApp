@@ -1,25 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import '../css/LandingPage.css';
+import { useNavigate } from 'react-router-dom';
 
 const LandingPage = () => {
-  const navigate = useNavigate();
-  const [test, setTest] = useState(0);
 
-  useEffect(() => {
-
-    if(test === 7) {
-        navigate('/login')
-    }
-  }, [test]);
-
-  useEffect(() => {
-    return () => {
-        console.log('Component has been unmounted');
-    }
-  }, [])
+    const navigate = useNavigate();
 
   return (
-    <div onClick={() => setTest(test+1)}>LandingPage has been clicked: {test} times</div>
+    <div className='my-app-container'>
+        <div className='my-app-header'>Welcome to my-app</div>
+        <button className='my-app-button' onClick={() => navigate('/login')}>Login/Signup</button>
+    </div>
   )
 }
 

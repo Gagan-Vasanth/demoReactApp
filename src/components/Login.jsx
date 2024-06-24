@@ -1,14 +1,11 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import LoginAndSignup from '../common/LoginAndSignup';
 
 const Login = () => {
- const navigate = useNavigate();
- const navigateToSignup = () => {
-    console.log('this button is clicked');
-    navigate('/signup');
- }
   return (
-    <div onClick={navigateToSignup}>Login</div>
+    <div>
+        <LoginAndSignup heading={'login'}/>
+    </div>
   )
 }
 
