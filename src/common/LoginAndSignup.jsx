@@ -42,6 +42,7 @@ const LoginAndSignup = (props) => {
             return setErrors(errors);
         } else {
             // call the API
+            setErrors({});
         }
     
     };
