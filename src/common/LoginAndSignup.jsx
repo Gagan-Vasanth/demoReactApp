@@ -33,6 +33,8 @@ const LoginAndSignup = (props) => {
                 password
             }).then((res) => {
                 console.log(res, 'the login Api is successfull');
+                localStorage.setItem('_auth', res.data.token);
+                return navigate('/home')
             })
         .catch((err) => console.log(err, 'the login APi is failed'))
     }
