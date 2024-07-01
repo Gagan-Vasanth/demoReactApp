@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../css/LoginAndSignup.css';
+import axios from 'axios';
 
 const LoginAndSignup = (props) => {
     const navigate = useNavigate();
@@ -9,6 +10,32 @@ const LoginAndSignup = (props) => {
     const [password, setPassword] = useState('');
     // const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [errors, setErrors]= useState({});
+    const [apiError, setApiError] = useState('');
+
+    const callSignUpAPI = () => {
+        return axios.post('http://localhost:8000/api/users/create', {
+            username: userName,
+            email,
+            password
+        }).then((res) => {
+            console.log(res, 'the signup Api is successfull');
+            return navigate('/login');
+        })
+        .catch((err) => {
+            console.log(err, 'error in signup API');
+            setApiError(err.response.data.message);
+        })
+    }
+
+    const callLoginAPI = () => {
+        return axios.post('http://localhost:8000/api/users/login', {
+                email,
+                password
+            }).then((res) => {
+                console.log(res, 'the login Api is successfull');
+            })
+        .catch((err) => console.log(err, 'the login APi is failed'))
+    }
 
     const validateUserData = (username, email, password) => {
         const errors = {};
@@ -41,25 +68,15 @@ const LoginAndSignup = (props) => {
         if(errors && errors.username || errors.email || errors.password) {
             return setErrors(errors);
         } else {
-            // call the API
             setErrors({});
+            if(props.heading === 'signup') {
+                callSignUpAPI();
+            } else {
+                callLoginAPI();
+            }
         }
     
     };
-
-    // useEffect(() => {
-    //     validateAndAllowLogin();
-    // }, [email, password, userName])
-
-    // const validateAndAllowLogin = () => {
-    //     const condition = props.heading === 'login' ? email && password && email.length > 10 && password.length >= 8 : email && password && userName && email.length > 10 && password.length >= 8 && userName.length > 6 
-    //     if(condition) {
-    //         setIsButtonDisabled(false);  
-    //     } else {
-    //         setIsButtonDisabled(true);
-    //     }
-    // }
-
     
 
   return (
@@ -92,6 +109,9 @@ const LoginAndSignup = (props) => {
                     <button className='ls-button' onClick={() => validateUserData(userName, email, password)}>
                         {props.heading}
                     </button>
+                    <div>
+                        {apiError && apiError}
+                    </div>
                 </div>
         </div>
     </div>
